@@ -1,0 +1,29 @@
+version: "2"
+services:
+  db:
+    image: 160.154.83.14:9445/openmoise-db:14.0
+    user: root
+    environment:
+      - POSTGRES_PASSWORD=odoo
+      - POSTGRES_USER=odoo
+      - POSTGRES_DB=postgres
+    restart: always # run as a service
+    volumes:
+      - ./postgresql:/var/lib/postgresql/data
+
+  openmoise-client:
+    image: 160.154.83.14:9445/openmoise-client:14.0
+    depends_on:
+      - db
+    ports:
+      - "10015:8069"
+      - "20015:8072" # live chat
+    environment:
+      - HOST=db
+      - USER=odoo
+      - PASSWORD=odoo
+    volumes:
+      - ./addons:/mnt/extra-addons
+      - ./etc:/etc/odoo
+    restart: always # run as a service
+
