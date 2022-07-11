@@ -1,20 +1,20 @@
 version: "2"
 services:
-  # db:
-  #   image: registry.openmoise.ci/openmoise-db:14.0
-  #   user: root
-  #   environment:
-  #     - POSTGRES_PASSWORD=odoo
-  #     - POSTGRES_USER=odoo
-  #     - POSTGRES_DB=postgres
-  #   restart: always # run as a service
-  #   volumes:
-  #     - ./postgresql:/var/lib/postgresql/data
+  db:
+    image: registry.openmoise.ci/openmoise-db:14.0
+    user: root
+    environment:
+      - POSTGRES_PASSWORD=odoo
+      - POSTGRES_USER=odoo
+      - POSTGRES_DB=postgres
+    restart: always # run as a service
+    volumes:
+      - ./postgresql:/var/lib/postgresql/data
 
   openmoise-client:
     image: registry.openmoise.ci/openmoise-client:14.0
-    # depends_on:
-    #   - db
+    depends_on:
+      - db
     ports:
       - "10015:8069"
       - "20015:8072" # live chat
@@ -23,6 +23,9 @@ services:
       - USER=odoo
       - PASSWORD=odoo
     volumes:
+      # - ./entrypoint.sh:/entrypoint.sh # if you want to install additional Python packages, uncomment this line!
+      - ./filestore:/etc/odoo/filestore
+      - ./sessions:/etc/odoo/sessions
       - ./addons:/mnt/extra-addons
       - ./etc:/etc/odoo
     restart: always # run as a service
