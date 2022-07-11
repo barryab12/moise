@@ -1,7 +1,7 @@
 version: "2"
 services:
   db:
-    image: 160.154.83.14:9445/openmoise-db:14.0
+    image: registry.openmoise.ci/openmoise-db:14.0
     user: root
     environment:
       - POSTGRES_PASSWORD=odoo
@@ -12,7 +12,7 @@ services:
       - ./postgresql:/var/lib/postgresql/data
 
   openmoise-client:
-    image: 160.154.83.14:9445/openmoise-client:14.0
+    image: registry.openmoise.ci/openmoise-client:14.0
     depends_on:
       - db
     ports:
