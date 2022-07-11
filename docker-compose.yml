@@ -23,9 +23,7 @@ services:
       - USER=odoo
       - PASSWORD=odoo
     volumes:
-      # - ./entrypoint.sh:/entrypoint.sh # if you want to install additional Python packages, uncomment this line!
-      - ./filestore:/etc/odoo/filestore
-      - ./sessions:/etc/odoo/sessions
+      - ./entrypoint.sh:/entrypoint.sh # if you want to install additional Python packages, uncomment this line!
       - ./addons:/mnt/extra-addons
       - ./etc:/etc/odoo
     restart: always # run as a service
